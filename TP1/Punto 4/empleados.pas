@@ -1,4 +1,4 @@
-program empleadosP; 
+PROGRAM Empleados; 
 CONST 
   fin = 'fin';
 TYPE 
