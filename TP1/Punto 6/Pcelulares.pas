@@ -126,7 +126,7 @@ procedure agregarCelulares (var a : archivoCelulares);
 var
 	c : celulares;
 begin
-	writeln ('---- 5: Agregar telefonos.')
+	writeln ('---- 5: Agregar telefonos.');
 	reset (a);
 	leerCelular(c);
 	// me tengo que mover al final del archivo y lo hago con seek 
@@ -134,11 +134,11 @@ begin
 	// uso FIlesize(a) el tamanño del archivo justamente para ir al ultimo elemento 
 	seek (a , FileSize(a));
 	while (c.cod <> -1 ) do begin 
-		write (a,c)
+		write (a,c);
 		leerCelular(c);
 	end; 
 	close (a);
-	wirteln(''); 
+	writeln(''); 
 end; 
 
 // modificar el stock de un telefono dado 
@@ -184,7 +184,7 @@ begin
 	rewrite (texto);
 	while (not eof (a)) do begin 
 			read (a,c);
-			if (c.stockD == 0) then begin 
+			if (c.stockD = 0) then begin 
 					writeln(texto,c.cod, c.precio, c.marca);
 					writeln(texto,c.stockD , c.stockM, c.des);
 					writeln(texto,c.nom);
