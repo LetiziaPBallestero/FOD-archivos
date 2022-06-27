@@ -16,7 +16,7 @@ TYPE
     end; 
 
     alumnosMaestro = file of alumno; 
-    archivoMaterias = file of materias; 
+    archivoMaterias = file of materia; 
 
                                               { Zona de modulos }
 // crear archivos 
@@ -29,14 +29,14 @@ begin
     end; 
 end;
 
-procedure crearArchivos ( var d : archivoMaterias)
+procedure crearArchivos ( var d : archivoMaterias);
 var 
     m : materia;
 begin 
-    assgin (d , 'Detalle.txt');
+    assign (d , 'Detalle.txt');
     rewrite (d);
     leerMateria(m); 
-    if (m.codigoAlumno <> -1 ) then begin 
+    while (m.codigoAlumno <> -1 ) do begin 
         write(d,m);
         leerMateria(m);
     end;
@@ -57,10 +57,10 @@ procedure crearArchivoMaestro ( var m : alumnosMaestro);
 var 
     a : alumno;
 begin 
-    assgin (m , 'Maestro.txt');
+    assign (m , 'Maestro.txt');
     rewrite (m);
     leerAlumno(a); 
-    if (a.cod <> -1 ) then begin 
+    while (a.cod <> -1 ) do begin 
         write(m,a);
         leerAlumno(a);
     end;
@@ -106,11 +106,12 @@ de materias aprobadas sin final.
     leerMateria (detalle ,  corteMateria); 
     while (corteMateria.codigoAlumno <> -1 ) do begin 
         leerAlumno (maestro , corteAlumno);
+        alumnoNuevo := corteAlumno;
         while (corteAlumno.cod <> alumnoNuevo.cod)  do
             // la primera vez lo voy a saltear, pero lo necesito para 
             // buscar una segunda vez
             leerAlumno (maestro , corteAlumno); 
-        while (corteMateria.cod = corteAlumno.cod) do begin 
+        while (corteMateria.codigoAlumno = corteAlumno.cod) do begin 
             if (corteMateria.estado = 'cursada') then 
                     corteAlumno.cursadas := corteAlumno.cursadas + 1; 
             if (corteMateria.estado = 'finalizada') then 
@@ -125,7 +126,7 @@ de materias aprobadas sin final.
     close (detalle);
 end; 
 // listar archivos 
-procedure imprimirTextoAlumno( var listado : text ;  a : alumnos); 
+procedure imprimirTextoAlumno( var listado : text ;  a : alumno); 
 begin
     with a do begin 
         writeln(listado,' ',cod,' ',apellido,' ',nombre);
@@ -155,18 +156,18 @@ begin
 	close(listado);
 end;
                                                    { Menu }
-procedure menu ( var maestro : alumnosDetalle ; var detalle : archivoMaterias); 
+procedure menu ( var maestro : alumnosMaestro ; var detalle : archivoMaterias); 
 var 
     opcion : string;
 begin 
     writeln ('======================= MENU =========================='); 
-    wirteln ('1. Actualizar archivo de alumnos');
-    writeln ('2. Listar alumnos');
+    writeln ('1. Actualizar archivo de alumnos');
+    writeln ('2. Listar alumnos con blablabla');
     writeln ('0. Para salir');
     write ('Ingrese una opcion: '); readln (opcion);
     case opcion of 
         '1': merge (maestro,detalle);
-        '2': imprimirArchivo (maestro);
+        '2': listarCuatroMaterias (maestro);
         '0': halt; 
         else begin 
             writeln ('Ingrese una opcion correcta'); 
@@ -176,10 +177,10 @@ begin
 end;
                                             { Programa principal }
 VAR
-    maestro = alumnosMaestro; 
-    detalle = archivoMaterias; 
+    maestro : alumnosMaestro; 
+    detalle : archivoMaterias; 
 BEGIN
-    crearArchivos(detalle);
-    crearArchivoMaestro (maestro);
+    //crearArchivos(detalle);
+    //crearArchivoMaestro (maestro);
     menu (maestro,detalle);
 END. 
